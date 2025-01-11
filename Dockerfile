@@ -1,10 +1,5 @@
-FROM python:3.12.8-slim
+FROM nginx:alpine
+COPY app/ITO7OBblU_l7r0eKT.html /usr/share/nginx/html/
+COPY app/ITO7OBblU_l7r0eKTdata /usr/share/nginx/html/ITO7OBblU_l7r0eKTdata
 
-RUN apt update
-
-RUN pip install flask
-
-COPY app /app
-WORKDIR /app
-
-CMD python main.py
+COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
