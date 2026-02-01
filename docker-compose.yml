@@ -14,8 +14,6 @@ services:
     restart: unless-stopped
     depends_on:
       - certbot
-    profiles:
-      - full
 
   certbot:
     image: certbot/certbot:latest
@@ -29,6 +27,3 @@ services:
         certbot renew --webroot -w /var/www/certbot --quiet;
         sleep 12h;
       done"
-    profiles:
-      - full
-      - create-cert
