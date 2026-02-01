@@ -43,7 +43,7 @@ jobs:
 
             if [ ! -f "$CERT_PATH" ]; then
               echo "🔐 TLS certificate not found — creating..."
-              docker compose run --rm --entrypoint certbot \
+              docker compose run --rm -p 80:80 --entrypoint certbot \
                 certbot certonly \
                 --standalone \
                 -w /var/www/certbot \
