@@ -43,8 +43,7 @@ jobs:
 
             if [ ! -f "$CERT_PATH" ]; then
               echo "🔐 TLS certificate not found — creating..."
-              docker compose --profile http-only up -d nginx-http
-              docker compose run --rm --entrypoint certbot \
+              docker compose run --rm --profile create-cert --entrypoint certbot \
                 certbot certonly \
                 --webroot \
                 -w /var/www/certbot \
