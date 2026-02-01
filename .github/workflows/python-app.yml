@@ -25,6 +25,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd ~/Agu_tour
+            docker compose pull
             docker compose down
             git reset --hard origin/master
             git pull origin master
