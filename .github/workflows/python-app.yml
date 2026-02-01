@@ -46,6 +46,7 @@ jobs:
               docker compose run --rm --entrypoint certbot \
                 certbot certonly \
                 --webroot \
+                --standalone \
                 -w /var/www/certbot \
                 -d "$DOMAIN" \
                 --agree-tos \
