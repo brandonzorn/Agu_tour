@@ -24,10 +24,41 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
+            set -e
             cd ~/Agu_tour
+            
+            echo "▶ Pull images"
             docker compose pull
+
+            echo "▶ Stop containers"
             docker compose down
+
+            echo "▶ Update code"
+            git fetch origin --prune
             git reset --hard origin/master
-            git pull origin master
+
+            DOMAIN="${{ vars.DOMAIN }}"
+            EMAIL="${{ vars.EMAIL }}"
+            CERT_PATH="certbot/conf/live/$DOMAIN/fullchain.pem"
+
+            if [ ! -f "$CERT_PATH" ]; then
+              echo "🔐 TLS certificate not found — creating..."
+              docker compose up -d nginx
+              docker compose run --rm --entrypoint certbot \
+                certbot certonly \
+                --webroot \
+                -w /var/www/certbot \
+                -d "$DOMAIN" \
+                --agree-tos \
+                --email "$EMAIL" \
+                --non-interactive
+              echo "✅ Certificate created"
+            else
+              echo "✅ Certificate already exists — skipping creation"
+            fi
+
+            echo "▶ Start full stack"
             docker compose up -d
+
+            echo "🧹 Docker cleanup"
             docker system prune -f
