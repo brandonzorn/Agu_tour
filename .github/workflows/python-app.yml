@@ -43,7 +43,7 @@ jobs:
 
             if [ ! -f "$CERT_PATH" ]; then
               echo "🔐 TLS certificate not found — creating..."
-              docker compose run --rm --profile create-cert --entrypoint certbot \
+              docker compose run --rm --entrypoint certbot \
                 certbot certonly \
                 --webroot \
                 -w /var/www/certbot \
@@ -57,7 +57,7 @@ jobs:
             fi
 
             echo "▶ Start full stack"
-            docker compose --profile full up -d
+            docker compose up -d
 
             echo "🧹 Docker cleanup"
             docker system prune -f
