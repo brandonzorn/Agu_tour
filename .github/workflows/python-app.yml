@@ -45,7 +45,6 @@ jobs:
               echo "🔐 TLS certificate not found — creating..."
               docker compose run --rm --entrypoint certbot \
                 certbot certonly \
-                --webroot \
                 --standalone \
                 -w /var/www/certbot \
                 -d "$DOMAIN" \
