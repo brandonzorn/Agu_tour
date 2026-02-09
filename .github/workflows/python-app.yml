@@ -48,6 +48,7 @@ jobs:
                 --standalone \
                 -w /var/www/certbot \
                 -d "$DOMAIN" \
+                -d "www.$DOMAIN" \
                 --agree-tos \
                 --email "$EMAIL" \
                 --non-interactive
