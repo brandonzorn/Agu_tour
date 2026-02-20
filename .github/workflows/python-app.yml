@@ -26,9 +26,6 @@ jobs:
           script: |
             set -e
             cd ~/Agu_tour
-            
-            echo "▶ Pull images"
-            docker compose pull
 
             echo "▶ Stop containers"
             docker compose down
@@ -36,17 +33,19 @@ jobs:
             echo "▶ Update code"
             git fetch origin --prune
             git reset --hard origin/master
+            
+            echo "▶ Pull images"
+            docker compose pull
 
             DOMAIN="${{ vars.DOMAIN }}"
             EMAIL="${{ vars.EMAIL }}"
             CERT_PATH="certbot/conf/live/$DOMAIN/fullchain.pem"
 
             if [ ! -f "$CERT_PATH" ]; then
-              echo "🔐 TLS certificate not found — creating..."
+              echo "🔐 TLS certificate not found — creating (standalone)..."
               docker compose run --rm -p 80:80 --entrypoint certbot \
                 certbot certonly \
                 --standalone \
-                -w /var/www/certbot \
                 -d "$DOMAIN" \
                 -d "www.$DOMAIN" \
                 --agree-tos \
@@ -58,6 +57,7 @@ jobs:
             fi
 
             echo "▶ Start full stack"
+            NGINX_SERVER_NAME="${{ vars.DOMAIN }}" \
             docker compose up -d
 
             echo "🧹 Docker cleanup"
