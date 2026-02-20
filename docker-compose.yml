@@ -15,7 +15,7 @@ services:
       NGINX_HTTP_PORT: "80"
       NGINX_SERVER_NAME: "${NGINX_SERVER_NAME}"
     volumes:
-      - ./templates:/etc/nginx/templates:ro
+      - ./nginx/templates:/etc/nginx/templates:ro
       - ./app:/usr/share/nginx/html
       - ./logs:/var/log/nginx
       - *certbot-conf
