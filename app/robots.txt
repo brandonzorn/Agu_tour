@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /3D_TYRdata/
+
+Sitemap: https://goagu.top/sitemap.xml

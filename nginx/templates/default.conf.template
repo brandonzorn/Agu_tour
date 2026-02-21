@@ -38,8 +38,7 @@ server {
 
     location /3D_TYRdata/ {
         autoindex off;
-        expires 1d;
-        add_header Cache-Control "public, no-transform";
+        add_header Cache-Control "public, no-transform, max-age=2592000";
         access_log off;
     }
 
